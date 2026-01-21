@@ -1,0 +1,5 @@
+numpy>=1.26.0
+sentence-transformers>=2.2.0
+faiss-cpu>=1.13.0
+ollama>=0.6.0
+python-dotenv>=1.0.0

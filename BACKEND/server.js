@@ -1,0 +1,37 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
+
+const app = express();
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => console.log('MongoDB connected'))
+  .catch(err => console.log('MongoDB error:', err));
+
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/student', require('./routes/student'));
+app.use('/api/company', require('./routes/company'));
+app.use('/api/chatbot', require('./routes/chatbot'));
+app.use('/api/recommendations', require('./routes/recommendations'));
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({ message: 'SkillBridge Backend is running!' });
+});
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'Server running' });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
