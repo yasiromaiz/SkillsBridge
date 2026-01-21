@@ -23,4 +23,28 @@ router.get('/internships/:companyId', async (req, res) => {
   }
 });
 
+// Update internship
+router.put('/internship/:id', async (req, res) => {
+  try {
+    const internship = await Internship.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.json({ success: true, internship });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete internship
+router.delete('/internship/:id', async (req, res) => {
+  try {
+    await Internship.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: 'Internship deleted' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
